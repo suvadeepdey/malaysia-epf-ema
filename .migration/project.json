@@ -1,0 +1,15 @@
+{
+  "type": "xwalk",
+  "sites": {
+    "malaysia-epf-ema": {
+      "libraryUrl": "https://main--sta-xwalk-boilerplate--aemysites.aem.page/tools/sidekick/library.json",
+      "previewOrg": "suvadeepdey",
+      "previewSite": "malaysia-epf-ema",
+      "contentHostUrl": "author-p214503-e2234854.adobeaemcloud.com",
+      "aemSitePath": "/content/malaysia-epf-ema",
+      "aemAssetsFolderPath": "/content/dam/malaysia-epf-ema",
+      "aemSiteName": "malaysia-epf-ema",
+      "aemSiteTitle": "Malaysia EPF EMA"
+    }
+  }
+}

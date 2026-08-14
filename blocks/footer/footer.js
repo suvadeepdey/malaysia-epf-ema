@@ -8,13 +8,19 @@ import { loadFragment } from '../fragment/fragment.js';
 export default async function decorate(block) {
   // load footer as fragment
   const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/content/footer';
   const fragment = await loadFragment(footerPath);
 
   // decorate footer DOM
   block.textContent = '';
   const footer = document.createElement('div');
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+
+  // normalize relative DAM image paths to root-relative (see header.js)
+  footer.querySelectorAll('img[src^="content/"]').forEach((img) => {
+    img.setAttribute('src', `/${img.getAttribute('src')}`);
+    img.setAttribute('loading', 'lazy');
+  });
 
   block.append(footer);
 }

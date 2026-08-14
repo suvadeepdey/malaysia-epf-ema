@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "http://127.0.0.1:8787/member/healthcare.html",
+  "path": "member/healthcare",
+  "timestamp": "2026-08-14T12:16:00.049Z",
+  "title": "Financial Relief for Your Medical Costs",
+  "template": "member-healthcare",
+  "blocks": [
+    "hero",
+    "cards",
+    "cards",
+    "cards",
+    "cards"
+  ]
+}

@@ -1,0 +1,26 @@
+/*
+ * brand.css — KWSP / EPF Malaysia design tokens
+ * Extracted from the source theme (www.kwsp.gov.my) via the saved reference capture.
+ */
+
+:root {
+  /* brand colors */
+  --kwsp-primary: #0b5fff;        /* brand blue */
+  --kwsp-primary-dark: #144eb6;
+  --kwsp-accent-gold: #e8b53b;
+  --kwsp-accent-red: #eb2127;
+  --kwsp-ink: #272833;            /* body text */
+  --kwsp-ink-soft: #333;          /* card copy */
+  --kwsp-title: #2e2e2e;          /* card titles */
+  --kwsp-muted: #6b6c7e;          /* secondary text */
+  --kwsp-page-bg: #f3f3f3;        /* page background */
+  --kwsp-surface: #fff;           /* card surface */
+
+  /* card / surface treatment */
+  --kwsp-card-radius: 20px;
+  --kwsp-card-shadow: 0 12px 36px 0 rgb(62 62 62 / 12%);
+
+  /* font stack (source uses FilsonPro, which falls back to system-ui) */
+  --kwsp-font: system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
+    oxygen-sans, ubuntu, cantarell, "Helvetica Neue", arial, sans-serif;
+}

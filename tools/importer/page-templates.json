@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "projectType": "xwalk"
+  },
+  "templates": [
+    {
+      "name": "member-healthcare",
+      "urls": [
+        "http://127.0.0.1:8787/member/healthcare.html"
+      ],
+      "coverageGaps": [],
+      "description": "EPF Member 'Health Protection' landing page (source: https://www.kwsp.gov.my/en/member/healthcare). Hero with intro + banner image, followed by grouped icon-card link tiles (Protection, Health Withdrawal, Incapacitation Withdrawal) and a quick-links bar. Served locally because the live source is behind Cloudflare bot protection.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#main-content > div.journal-content-article.contribution"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#main-content > div.portlet-asset-publisher:nth-of-type(3)",
+            "#main-content > div.portlet-asset-publisher:nth-of-type(4)",
+            "#main-content > div.quickbar",
+            "#main-content > div.portlet-asset-publisher:nth-of-type(6)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "rc-eds-1",
+          "name": "Page intro",
+          "selector": [
+            "#main-content > div.component-html"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "#main-content > div.component-html",
+            "#main-content > nav.breadcrumb-contribution"
+          ]
+        },
+        {
+          "id": "rc-eds-2",
+          "name": "Hero",
+          "selector": [
+            "#main-content > div.journal-content-article.contribution"
+          ],
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc-eds-3",
+          "name": "Healthcare programmes",
+          "selector": [
+            "#main-content > h3.component-heading.mb-0.text-break"
+          ],
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "#main-content > h3.component-heading.mb-0.text-break",
+            "#main-content > h4.component-heading.mb-0.text-break:nth-of-type(1)",
+            "#main-content > h4.component-heading.mb-0.text-break:nth-of-type(2)",
+            "#main-content > h4.component-heading.mb-0.text-break:nth-of-type(3)"
+          ]
+        }
+      ]
+    }
+  ]
+}
