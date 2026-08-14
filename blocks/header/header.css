@@ -299,19 +299,33 @@ header nav .nav-sections .default-content-wrapper > ul > li > a:any-link {
 @media (width >= 900px) {
   header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
     left: -16px;
-    top: 200%;
+    top: 100%;
     width: 380px;
     max-height: 70vh;
     overflow-y: auto;
+    margin-top: 12px;
     padding: 8px;
     border-radius: 12px;
     background-color: #fff;
     box-shadow: var(--kwsp-card-shadow);
   }
 
+  /* transparent bridge across the 12px gap so moving the cursor from the nav
+     item into the panel never leaves the hovered <li> (prevents the menu from
+     closing mid-move). */
+  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 16px;
+  }
+
   header nav .nav-sections .default-content-wrapper > ul > li > ul::before {
     border-bottom-color: #fff;
     left: 24px;
+    top: -6px;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
