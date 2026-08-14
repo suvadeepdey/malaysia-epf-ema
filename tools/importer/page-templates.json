@@ -71,6 +71,19 @@
           ]
         }
       ]
+    },
+    {
+      "name": "member-product",
+      "urls": [
+        "http://127.0.0.1:8788/member/healthcare/i-lindung.html"
+      ],
+      "coverageGaps": [],
+      "description": "EPF Member product detail page (source: https://www.kwsp.gov.my/en/member/healthcare/i-lindung). Hero banner + CTA, intro, icon-card groups (Who Can Apply / Who Is Eligible / Types Of Protection / Key Features), video, FAQ accordion grouped by 4 categories, related-article cards. Imported via tools/importer/import-member-product.js.",
+      "blocks": [
+        { "name": "hero", "instances": [".product-banner-wrapper"] },
+        { "name": "cards", "instances": [".who-can-apply .grid-three-col", ".who-is-eligible .grid-two-col", ".types-of-protection .grid-two-col", ".key-features .grid-three-col", ".related-wrapper"] },
+        { "name": "accordion", "instances": [".accordion-faq"] }
+      ]
     }
   ]
 }
