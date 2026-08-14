@@ -1,0 +1,72 @@
+/*
+ * accordion — FAQ-style collapsible items (KWSP i-Lindung).
+ * Each item: bold question summary + right chevron; answer body reveals on open.
+ */
+
+.accordion .accordion-item {
+  border-bottom: 1px solid #e7e7ed;
+}
+
+.accordion .accordion-item-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 40px 20px 0;
+  cursor: pointer;
+  list-style: none;
+  color: var(--kwsp-title, #2e2e2e);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.accordion .accordion-item-label::-webkit-details-marker {
+  display: none;
+}
+
+.accordion .accordion-item-label p {
+  margin: 0;
+}
+
+/* chevron */
+.accordion .accordion-item-label::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -6px;
+  border: 2px solid var(--kwsp-primary, #0b5fff);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.accordion .accordion-item[open] .accordion-item-label::after {
+  transform: rotate(-135deg);
+}
+
+.accordion .accordion-item-body {
+  padding: 0 40px 20px 0;
+  color: var(--kwsp-ink-soft, #333);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.accordion .accordion-item-body > *:first-child {
+  margin-top: 0;
+}
+
+.accordion .accordion-item-body ol,
+.accordion .accordion-item-body ul {
+  padding-left: 20px;
+}
+
+/* category heading between groups (default-content h3 preceding a group) */
+.accordion-container h2,
+.accordion-container h3 {
+  color: var(--kwsp-title, #2e2e2e);
+}

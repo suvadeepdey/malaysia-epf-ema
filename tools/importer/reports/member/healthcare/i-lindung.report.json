@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "http://127.0.0.1:8788/member/healthcare/i-lindung.html",
+  "path": "member/healthcare/i-lindung",
+  "timestamp": "2026-08-14T13:45:03.962Z",
+  "title": "i-Lindung: Purchase Insurance/Takaful",
+  "template": "member-product",
+  "blocks": [
+    "hero-product",
+    "cards-icon",
+    "cards-icon",
+    "cards-icon",
+    "cards-icon",
+    "accordion",
+    "accordion",
+    "accordion",
+    "accordion",
+    "cards-articles"
+  ]
+}
