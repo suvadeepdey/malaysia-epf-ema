@@ -1,3 +1,7 @@
 helix-importer-ui
 dompurify.min.js
 *.min.js
+*.bundle.js
+tools/importer/
+migration-reference/
+migration-work/
