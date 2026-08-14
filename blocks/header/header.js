@@ -151,8 +151,13 @@ export default async function decorate(block) {
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-      navSection.addEventListener('click', () => {
+      navSection.addEventListener('click', (e) => {
         if (isDesktop.matches) {
+          // Only toggle when the top-level item itself is clicked. Clicks on a
+          // link inside the open panel bubble up here; toggling then would close
+          // the menu before the link navigates. Ignore those.
+          const panel = navSection.querySelector(':scope > ul');
+          if (panel && panel.contains(e.target)) return;
           const expanded = navSection.getAttribute('aria-expanded') === 'true';
           toggleAllNavSections(navSections);
           navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
