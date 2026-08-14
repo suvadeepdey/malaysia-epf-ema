@@ -115,7 +115,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 export default async function decorate(block) {
   // load nav as fragment
   const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/content/nav';
   const fragment = await loadFragment(navPath);
 
   // decorate nav DOM
@@ -123,6 +123,14 @@ export default async function decorate(block) {
   const nav = document.createElement('nav');
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
+
+  // normalize DAM image paths: the fragment stores them relative
+  // (content/dam/...) so validation resolves them on disk; at runtime they must
+  // be root-relative so they resolve against the site root, not the page URL.
+  nav.querySelectorAll('img[src^="content/"]').forEach((img) => {
+    img.setAttribute('src', `/${img.getAttribute('src')}`);
+    img.setAttribute('loading', 'lazy');
+  });
 
   const classes = ['brand', 'sections', 'tools'];
   classes.forEach((c, i) => {
@@ -147,6 +155,16 @@ export default async function decorate(block) {
           toggleAllNavSections(navSections);
           navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         }
+      });
+      // desktop: open the megamenu panel on hover (matches source behavior)
+      navSection.addEventListener('mouseenter', () => {
+        if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
+          toggleAllNavSections(navSections);
+          navSection.setAttribute('aria-expanded', 'true');
+        }
+      });
+      navSection.addEventListener('mouseleave', () => {
+        if (isDesktop.matches) navSection.setAttribute('aria-expanded', 'false');
       });
     });
   }

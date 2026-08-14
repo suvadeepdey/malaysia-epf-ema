@@ -1,27 +1,157 @@
+/*
+ * cards — KWSP healthcare link tiles.
+ *
+ * Two visual sub-styles rendered from one cards block, distinguished by the
+ * card body's paragraph count (no JS/content changes needed):
+ *   - icon-card tiles  : body has 2 paragraphs (title + "Learn More" CTA)
+ *   - quickbar links   : body has 1 paragraph (label under a centered icon)
+ *
+ * Rendered markup per card:
+ *   li > .cards-card-image (p>picture) + .cards-card-body (p… )
+ */
+
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(326px, 1fr));
   gap: 24px;
 }
 
+/* ---- default (icon-card) tile: title + "Learn More" ---- */
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
-}
-
-.cards .cards-card-body {
-  margin: 16px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 153px;
+  padding: 20px;
+  border-radius: var(--kwsp-card-radius);
+  background-color: var(--kwsp-surface);
+  box-shadow: var(--kwsp-card-shadow);
 }
 
 .cards .cards-card-image {
+  margin: 0;
   line-height: 0;
+  flex: 0 0 auto;
+  align-self: flex-end;
 }
 
-.cards > ul > li img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+.cards .cards-card-image img {
+  width: 86px;
+  height: 100px;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+.cards .cards-card-body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-self: stretch;
+  flex: 1 1 auto;
+}
+
+.cards .cards-card-body p {
+  margin: 0;
+}
+
+/* title */
+.cards .cards-card-body p:first-child {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.12px;
+}
+
+.cards .cards-card-body p:first-child a {
+  color: var(--kwsp-title);
+}
+
+/* "Learn More" CTA */
+.cards .cards-card-body p:last-child {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.cards .cards-card-body p:last-child a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--kwsp-ink-soft);
+}
+
+.cards .cards-card-body p:last-child a::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: url("/content/dam/malaysia-epf-ema/chev-right.svg") no-repeat center / contain;
+}
+
+.cards > ul > li:hover {
+  box-shadow: 0 16px 40px 0 rgb(62 62 62 / 18%);
+}
+
+.cards > ul > li:hover .cards-card-body p:first-child a {
+  color: var(--kwsp-primary);
+}
+
+/*
+ * ---- quickbar sub-style: single-paragraph cards (icon over label) ----
+ * Selected when the card body has exactly one paragraph.
+ */
+.cards > ul:has(li .cards-card-body p:only-child) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px 16px;
+  border-radius: var(--kwsp-card-radius);
+  background-color: var(--kwsp-surface);
+  box-shadow: var(--kwsp-card-shadow);
+}
+
+.cards > ul:has(li .cards-card-body p:only-child) > li {
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 80px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  text-align: center;
+}
+
+.cards > ul:has(li .cards-card-body p:only-child) .cards-card-image {
+  align-self: center;
+}
+
+.cards > ul:has(li .cards-card-body p:only-child) .cards-card-image img {
+  width: 40px;
+  height: 40px;
+}
+
+.cards > ul:has(li .cards-card-body p:only-child) .cards-card-body {
+  align-self: center;
+  text-align: center;
+}
+
+.cards > ul:has(li .cards-card-body p:only-child) .cards-card-body p:first-child {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.cards > ul:has(li .cards-card-body p:only-child) .cards-card-body p:first-child a {
+  color: var(--kwsp-ink);
+}
+
+.cards > ul:has(li .cards-card-body p:only-child) > li:hover {
+  box-shadow: none;
 }
