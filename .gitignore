@@ -16,3 +16,4 @@ migration-work/navigation-validation/
 # migration scratch (not for repo)
 migration-reference/
 migration-work/
+.migration/
