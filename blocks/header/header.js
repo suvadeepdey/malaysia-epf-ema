@@ -147,6 +147,22 @@ export default async function decorate(block) {
     brandLink.closest('.button-container').className = '';
   }
 
+  // Ensure the brand logo is present. When the nav fragment is served from the
+  // author (DAM logo not ingested), the brand link renders empty. Fall back to
+  // the logo committed as a static asset so it always resolves on the live site.
+  if (navBrand) {
+    const brandAnchor = navBrand.querySelector('a');
+    if (brandAnchor && !brandAnchor.querySelector('img')) {
+      const logo = document.createElement('img');
+      logo.src = '/icons/main-logo.webp';
+      logo.alt = 'KWSP EPF';
+      logo.loading = 'eager';
+      logo.className = 'nav-brand-logo';
+      brandAnchor.textContent = '';
+      brandAnchor.append(logo);
+    }
+  }
+
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
