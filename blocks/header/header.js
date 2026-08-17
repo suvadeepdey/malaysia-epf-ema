@@ -163,16 +163,22 @@ export default async function decorate(block) {
           navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         }
       });
-      // desktop: open the megamenu panel on hover (matches source behavior)
+      // desktop: open the megamenu panel on hover. It stays open (no close on
+      // mouse-out) until a menu item is clicked, another top-level item is
+      // opened, Escape is pressed, or the user clicks outside the nav.
       navSection.addEventListener('mouseenter', () => {
         if (isDesktop.matches && navSection.classList.contains('nav-drop')) {
           toggleAllNavSections(navSections);
           navSection.setAttribute('aria-expanded', 'true');
         }
       });
-      navSection.addEventListener('mouseleave', () => {
-        if (isDesktop.matches) navSection.setAttribute('aria-expanded', 'false');
-      });
+    });
+
+    // desktop: close the open panel when clicking anywhere outside the nav.
+    document.addEventListener('click', (e) => {
+      if (isDesktop.matches && !nav.contains(e.target)) {
+        toggleAllNavSections(navSections);
+      }
     });
   }
 
