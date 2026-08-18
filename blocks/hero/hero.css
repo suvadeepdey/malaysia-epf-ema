@@ -462,22 +462,6 @@ picture {
   background: transparent;
 }
 
-.hero.overlay::before,
-.hero.image-background-text-left::before,
-.hero.image-background-text-right::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  background: rgb(0 20 40 / 20%);
-}
-
-.hero.overlay.theme-dark::before,
-.hero.image-background-text-left.theme-dark::before,
-.hero.image-background-text-right.theme-dark::before {
-  background: rgb(0 20 40 / 45%);
-}
-
 .hero.theme-dark h1,
 .hero.theme-dark h2,
 .hero.theme-dark h3,
