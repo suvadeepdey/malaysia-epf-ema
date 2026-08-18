@@ -1,69 +1,54 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { isAuthorEnvironment, moveInstrumentation } from '../../scripts/scripts.js';
-import { readBlockConfig } from '../../scripts/aem.js';
+/**
+ * Reads the plain-text value authored in a hero config row (a block row
+ * that only ever contains a single value, e.g. "true" or "image-right").
+ * @param {Element} row
+ */
+function readRowValue(row) {
+  return row?.querySelector(':scope > div')?.textContent?.trim();
+}
 
 /**
- *
- * @param {Element} block
+ * loads and decorates the block
+ * @param {Element} block The block element
  */
 export default function decorate(block) {
-  // Get the enable underline setting from the block content (3rd div)
-  const enableUnderline = block.querySelector(':scope div:nth-child(3) > div')?.textContent?.trim() || 'true';
-  
-  // Get the layout Style from the block content (4th div)
-  const layoutStyle = block.querySelector(':scope div:nth-child(4) > div')?.textContent?.trim() || 'overlay';
+  const [, textRow, underlineRow, layoutRow, ctaRow, backgroundRow] = [...block.children];
 
-  // Get the CTA style from the block content (5th div)
-  const ctaStyle = block.querySelector(':scope div:nth-child(5) > div')?.textContent?.trim() || 'default';
+  const enableUnderline = readRowValue(underlineRow) || 'true';
+  const explicitLayout = readRowValue(layoutRow);
+  const explicitCtaStyle = readRowValue(ctaRow);
+  const explicitBackground = readRowValue(backgroundRow);
 
-  const backgroundStyle = block.querySelector(':scope div:nth-child(6) > div')?.textContent?.trim() || 'default';
+  // Older/author-created content doesn't always carry the layout/background
+  // config rows above (they were added after this content was authored), so
+  // fall back to detecting the intended variant from the content itself:
+  // a hero with a call-to-action link reads as a full-bleed banner with the
+  // image as a background, while one without a CTA reads as a plain
+  // image + copy panel.
+  const textContainer = textRow?.querySelector(':scope > div');
+  const ctaLink = textContainer?.querySelector('a[href]');
+  const ctaParagraph = ctaLink?.closest('p');
+  const hasCta = !!(ctaLink && ctaParagraph
+    && ctaParagraph.textContent.trim() === ctaLink.textContent.trim());
 
-  if(layoutStyle){
-     block.classList.add(`${layoutStyle}`);
-  }
+  const layoutStyle = explicitLayout || (hasCta ? 'image-background-text-left' : 'image-right');
+  const backgroundStyle = explicitBackground || (hasCta ? 'theme-dark' : 'theme-light');
+  const ctaStyle = explicitCtaStyle || 'button';
 
-  if(backgroundStyle){
-    block.classList.add(`${backgroundStyle}`);
-  }
+  block.classList.add(layoutStyle);
+  block.classList.add(backgroundStyle);
 
-  // Add removeunderline class if underline is disabled
   if (enableUnderline.toLowerCase() === 'false') {
     block.classList.add('removeunderline');
   }
-  
-  // Find the button container within the hero block
-  const buttonContainer = block.querySelector('p.button-container');
-  
-  if (buttonContainer) {
-    // Add the CTA style class to the button container
-    buttonContainer.classList.add(`cta-${ctaStyle}`);
-  }
-  
-  // Hide the CTA style configuration paragraph
-  const ctaStyleParagraph = block.querySelector('p[data-aue-prop="ctastyle"]');
-  if (ctaStyleParagraph) {
-    ctaStyleParagraph.style.display = 'none';
+
+  if (hasCta) {
+    ctaParagraph.classList.add('button-container', `cta-${ctaStyle}`);
+    ctaLink.classList.add('button');
   }
 
-  // Optional: Remove the configuration divs after reading them to keep the DOM clean
-  const underlineDiv = block.querySelector(':scope div:nth-child(3)');
-  if (underlineDiv) {
-    underlineDiv.style.display = 'none';
-  }
-  
-  const layoutStyleDiv = block.querySelector(':scope div:nth-child(4)');
-  if (layoutStyleDiv) {
-    layoutStyleDiv.style.display = 'none';
-  }
-
-  const ctaStyleDiv = block.querySelector(':scope div:nth-child(5)');
-  if (ctaStyleDiv) {
-    ctaStyleDiv.style.display = 'none';
-  }
-
-  const backgroundStyleDiv = block.querySelector(':scope div:nth-child(6)');
-  if (backgroundStyleDiv) {
-    backgroundStyleDiv.style.display = 'none';
-  }
-
+  // Hide the config rows (image/text rows are always kept)
+  [underlineRow, layoutRow, ctaRow, backgroundRow].forEach((row) => {
+    if (row) row.style.display = 'none';
+  });
 }
