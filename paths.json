@@ -1,0 +1,11 @@
+{
+  "mappings": [
+    "/content/malaysia-epf-ema/:/",
+    "/content/malaysia-epf-ema/configuration:/.helix/config.json",
+    "/content/malaysia-epf-ema/metadata:/metadata.json"
+  ],
+  "includes": [
+    "/content/malaysia-epf-ema/",
+    "/content/dam/malaysia-epf-ema"
+  ]
+}
