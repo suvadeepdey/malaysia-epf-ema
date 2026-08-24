@@ -116,6 +116,9 @@ function createPlainText(fd) {
   const wrapper = createFieldWrapper(fd);
   wrapper.id = fd.id;
   wrapper.replaceChildren(paragraph);
+  if (fd?.properties?.variant === 'note') {
+    wrapper.classList.add('note-callout');
+  }
   return wrapper;
 }
 
