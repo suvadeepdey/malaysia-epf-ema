@@ -675,52 +675,56 @@ main .form form .field-wrapper .field-description{
   grid-column: span 12;
 }
 
-main .form form .field-wrapper.col-12 {
-    grid-column: span 12;
-}
+/**
+ * Column spans (col-1 to col-11) only kick in from 600px up. Below that,
+ * every field-wrapper - including panels and text - falls back to the
+ * "grid-column: span 12" default set above, so authored side-by-side
+ * layouts stack into a single column on mobile.
+ */
+@media (width >= 600px) {
+    main .form form .field-wrapper.col-11 {
+        grid-column: span 11;
+    }
 
-main .form form .field-wrapper.col-11 {
-    grid-column: span 11;
-}
+    main .form form .field-wrapper.col-10 {
+      grid-column: span 10;
+    }
 
-main .form form .field-wrapper.col-10 {
-  grid-column: span 10;
-}
+    main .form form .field-wrapper.col-9 {
+        grid-column: span 9;
+    }
 
-main .form form .field-wrapper.col-9 {
-    grid-column: span 9;
-}
+    main .form form .field-wrapper.col-8 {
+        grid-column: span 8;
+    }
 
-main .form form .field-wrapper.col-8 {
-    grid-column: span 8;
-}
+    main .form form .field-wrapper.col-7 {
+        grid-column: span 7;
+    }
 
-main .form form .field-wrapper.col-7 {
-    grid-column: span 7;
-}
+    main .form form .field-wrapper.col-6 {
+          grid-column: span 6;
+    }
 
-main .form form .field-wrapper.col-6 {
-      grid-column: span 6;
-}
+    main .form form .field-wrapper.col-5 {
+          grid-column: span 5;
+    }
 
-main .form form .field-wrapper.col-5 {
-      grid-column: span 5;
-}
+    main .form form .field-wrapper.col-4 {
+          grid-column: span 4;
+    }
 
-main .form form .field-wrapper.col-4 {
-      grid-column: span 4;
-}
+    main .form form .field-wrapper.col-3 {
+          grid-column: span 3;
+    }
 
-main .form form .field-wrapper.col-3 {
-      grid-column: span 3;
-}
+    main .form form .field-wrapper.col-2 {
+          grid-column: span 2;
+    }
 
-main .form form .field-wrapper.col-2 {
-      grid-column: span 2;
-}
-
-main .form form .field-wrapper.col-1 {
-    grid-column: span 1;
+    main .form form .field-wrapper.col-1 {
+        grid-column: span 1;
+    }
 }
 
 main .form form .checkbox-wrapper.field-invalid > .field-description {
