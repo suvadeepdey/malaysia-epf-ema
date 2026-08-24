@@ -3678,6 +3678,23 @@
       },
       {
         "component": "select",
+        "name": "variant",
+        "label": "Variant",
+        "valueType": "string",
+        "value": "default",
+        "options": [
+          {
+            "name": "Default",
+            "value": "default"
+          },
+          {
+            "name": "Note callout",
+            "value": "note"
+          }
+        ]
+      },
+      {
+        "component": "select",
         "name": "colspan",
         "label": "Column Span",
         "valueType": "string",

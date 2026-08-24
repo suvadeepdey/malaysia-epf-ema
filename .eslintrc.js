@@ -35,6 +35,7 @@ module.exports = {
       'multiline-input': 23,
       'number-input': 22,
       panel: 17,
+      'plain-text': 5,
       'radio-group': 20,
       'form-reset-button': 7,
       'form-submit-button': 7,

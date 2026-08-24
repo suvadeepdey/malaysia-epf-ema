@@ -82,6 +82,18 @@ export class WizardLayout {
         bubbles: false,
       });
       panel.dispatchEvent(event);
+      WizardLayout.updateStepInfo(panel);
+    }
+  }
+
+  static updateStepInfo(panel) {
+    const stepInfo = panel.querySelector('.wizard-step-info');
+    if (!stepInfo) return;
+    const menuItems = [...panel.querySelectorAll('.wizard-menu-item')]
+      .filter((item) => item.dataset.visible !== 'false');
+    const activeIndex = menuItems.indexOf(panel.querySelector('.wizard-menu-active-item'));
+    if (activeIndex > -1) {
+      stepInfo.textContent = `Step ${activeIndex + 1} of ${menuItems.length}`;
     }
   }
 
@@ -104,6 +116,7 @@ export class WizardLayout {
         menuItems.querySelector(`[data-index="${activePanel.dataset.index}"]`)?.classList.add('wizard-menu-active-item');
         target.querySelector('[data-active="true"]')?.focus();
       }
+      WizardLayout.updateStepInfo(panel);
     });
   }
 
@@ -151,9 +164,17 @@ export class WizardLayout {
       const wizardMenu = WizardLayout.createMenu(Array.from(children));
       wizardMenu.querySelector('li').classList.add('wizard-menu-active-item');
       wizardMenu.querySelector('li').setAttribute('aria-current', 'true');
-      // Insert the menu before the first child of the wizard
-      panel.insertBefore(wizardMenu, children[0]);
+
+      const stepHeader = document.createElement('div');
+      stepHeader.className = 'wizard-step-header';
+      const stepInfo = document.createElement('p');
+      stepInfo.className = 'wizard-step-info';
+      stepHeader.append(wizardMenu, stepInfo);
+
+      // Insert the step header before the first child of the wizard
+      panel.insertBefore(stepHeader, children[0]);
       WizardLayout.attachMutationObserver(panel);
+      WizardLayout.updateStepInfo(panel);
     }
 
     const wrapper = document.createElement('div');

@@ -61,6 +61,22 @@
     --form-card-selected-background: #F5F9FF;
     --form-card-selected-shadow: 0 0 0 1px var(--button-primary-color);
     --form-card-transition: all 0.15s ease-in-out;
+
+    /* Form wrapper bleed (used to make banners/notes span edge-to-edge) */
+    --form-wrapper-padding: 40px;
+    --form-bleed-x: var(--form-wrapper-padding);
+
+    /* Hero header banner (title + subtitle) */
+    --form-hero-gradient: linear-gradient(135deg, #fcb040 0%, #f7941d 100%);
+    --form-hero-text-color: #fff;
+
+    /* Disclaimer/note callout */
+    --form-note-background: #fdf6d8;
+    --form-note-border-color: #f0c419;
+    --form-note-text-color: #5c4a12;
+
+    /* Section heading (bold-only paragraph used as a mini heading) */
+    --form-section-heading-color: #a3186b;
 }
 
 * {
@@ -112,8 +128,11 @@ main .form form fieldset fieldset {
 }
 
 main .form .field-description {
-    color: var(--form-label-color);
-    font-size: var(--form-font-size-xs);
+    color: var(--kwsp-muted, #6b6c7e);
+    font-size: 0.8125rem;
+    margin-top: 6px;
+    line-height: 1.4;
+    font-style: italic;
 }
 
 main .form form .field-invalid .field-description {
@@ -270,6 +289,40 @@ main .form fieldset.link .checkbox-wrapper label {
     flex-basis: unset;
 }
 
+/**
+ * Default (non-card) radio/checkbox options rendered as full-width,
+ * bordered rows. :not(.cards) never matches the same fieldset as the
+ * .cards rules below, so specificity ordering between the two is moot.
+ */
+/* stylelint-disable no-descending-specificity */
+main .form form fieldset:not(.cards) > .radio-wrapper,
+main .form form fieldset:not(.cards) > .checkbox-wrapper {
+    border: 1px solid var(--form-card-border-color);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 0 0 12px;
+    background: var(--form-card-background);
+    transition: var(--form-card-transition);
+}
+
+main .form form fieldset:not(.cards) > .radio-wrapper:hover,
+main .form form fieldset:not(.cards) > .checkbox-wrapper:hover {
+    border-color: #ccc;
+    box-shadow: var(--form-card-hover-shadow);
+}
+
+main .form form fieldset:not(.cards) > .radio-wrapper:has(input:checked),
+main .form form fieldset:not(.cards) > .checkbox-wrapper:has(input:checked) {
+    border-color: var(--form-card-selected-border-color);
+    background: var(--form-card-selected-background);
+}
+
+main .form form fieldset:not(.cards) > .radio-wrapper input[type="radio"],
+main .form form fieldset:not(.cards) > .checkbox-wrapper input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
 main .form form fieldset.cards {
     display: flex;
     flex-wrap: wrap;
@@ -393,6 +446,7 @@ main .form form fieldset.cards > .checkbox-wrapper > label > img {
         min-width: 100%;
     }
 }
+/* stylelint-enable no-descending-specificity */
 
 input::file-selector-button {
     color: var(--form-upload-color);
@@ -673,15 +727,103 @@ main .form form .checkbox-group-wrapper.horizontal .field-description {
 
 main div.form-wrapper {
     background: white;
-    padding: 40px;
+    padding: var(--form-wrapper-padding);
     border-radius: 12px;
     box-shadow: 0 4px 24px rgb(0 0 0 / 8%);
+}
+
+/**
+ * Hero header banner: the first field-wrapper holding an <h3> title, plus the
+ * field-wrapper right after it (subtitle), are authored as plain-text fields
+ * at the top of the form. Style them as one bleeding, rounded-top banner.
+ */
+main .form form > .field-wrapper:has(h3) {
+    background: var(--form-hero-gradient);
+    margin: calc(var(--form-wrapper-padding) * -1) calc(var(--form-bleed-x) * -1) 0;
+    padding: 32px var(--form-bleed-x) 12px;
+    border-radius: 12px 12px 0 0;
+    text-align: center;
+}
+
+main .form form > .field-wrapper:has(h3) h3 {
+    color: var(--form-hero-text-color);
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+main .form form > .field-wrapper:has(h3) + .field-wrapper {
+    background: var(--form-hero-gradient);
+    margin: 0 calc(var(--form-bleed-x) * -1);
+    padding: 0 var(--form-bleed-x) 32px;
+    text-align: center;
+}
+
+main .form form > .field-wrapper:has(h3) + .field-wrapper p {
+    color: var(--form-hero-text-color);
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+/**
+ * Section heading: a plain-text field whose paragraph is *only* a bold string,
+ * used by authors as a mini heading (e.g. "About You").
+ */
+main .form form .field-wrapper:has(strong:only-child) {
+    margin: 24px 0 4px;
+}
+
+main .form form .field-wrapper:has(strong:only-child) p {
+    margin: 0;
+    color: var(--form-section-heading-color);
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+/**
+ * Disclaimer/note callout. Authors can pick the "Note callout" variant on a
+ * Text field (adds the .note-callout class, see form.js#createPlainText).
+ * The :has() selector is kept as a fallback for text authored before that
+ * variant existed: a paragraph starting with a bold lead-in ("Note:")
+ * followed by more text.
+ */
+main .form form .field-wrapper.note-callout,
+main .form form .field-wrapper:has(strong:first-child):not(:has(strong:only-child)) {
+    background: var(--form-note-background);
+    border-top: 2px solid var(--form-note-border-color);
+    border-bottom: 2px solid var(--form-note-border-color);
+    margin: 16px calc(var(--form-bleed-x) * -1);
+    padding: 16px var(--form-bleed-x);
+}
+
+main .form form .field-wrapper.note-callout p,
+main .form form .field-wrapper:has(strong:first-child):not(:has(strong:only-child)) p {
+    margin: 0;
+    color: var(--form-note-text-color);
+    font-size: var(--form-font-size-xs);
 }
 
 /* Responsive adjustments for mobile */
 @media (width <= 599px) {
     :root {
         --form-field-horz-gap: 10px;
+    }
+
+    main .form form > .field-wrapper:has(h3) {
+        padding: 24px var(--form-bleed-x) 12px;
+    }
+
+    main .form form > .field-wrapper:has(h3) h3 {
+        font-size: 1.4rem;
+    }
+
+    main .form form > .field-wrapper:has(h3) + .field-wrapper {
+        padding: 0 var(--form-bleed-x) 24px;
+    }
+
+    main .form form .field-wrapper.note-callout,
+    main .form form .field-wrapper:has(strong:first-child):not(:has(strong:only-child)) {
+        padding: 12px var(--form-bleed-x);
     }
 }
 

@@ -3,11 +3,19 @@
     --form-wizard-border: 0;
     --form-wizard-background-color: var(--background-color-primary);
     --form-wizard-border-color: #757575;
-    --form-wizard-number-color: var(--button-primary-color);
     --form-wizard-padding: 0px;
+    --form-wizard-padding-top: 20px;
     --form-wizard-padding-bottom: 160px;
     --form-wizard-step-legend-padding: 10px;
     --form-wizard-step-legend-font-size: 1.1rem;
+
+    /* Step header band (menu + "Step X of Y") */
+    --form-wizard-step-bar-background: #f4f5f7;
+    --form-wizard-step-inactive-bg: #e2e4e8;
+    --form-wizard-step-inactive-color: #8a8d95;
+    --form-wizard-step-line-color: #d8dadd;
+    --form-wizard-step-active-color: #123a70;
+    --form-wizard-step-info-color: #6b6c7e;
 }
 
 main .form form .wizard > legend{
@@ -21,7 +29,7 @@ main .form form .wizard  {
   border: var(--form-wizard-border) solid var(--form-wizard-border-color);
   background-color: var( --form-wizard-background-color);
   gap: unset;
-  padding: 20px var(--form-wizard-padding);
+  padding: var(--form-wizard-padding-top) var(--form-wizard-padding);
 }
 
 main .form form .wizard > fieldset > legend{
@@ -45,42 +53,76 @@ main .form form .wizard .wizard-button-wrapper .field-wrapper{
     flex: unset;
 }
 
+main .form form .wizard .wizard-step-header {
+    grid-column: span 12;
+    background: var(--form-wizard-step-bar-background);
+    margin: calc(var(--form-wizard-padding-top) * -1) calc(var(--form-bleed-x) * -1) 0;
+    padding: 24px var(--form-bleed-x) 16px;
+    text-align: center;
+}
+
 .wizard-menu-items{
     display: flex;
-    gap: 50px;
-    flex-wrap: wrap;
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
+    max-width: 480px;
     font-weight: var(--form-fieldset-legend-font-weight);
     font-size: var(--form-fieldset-legend-font-size);
-    color: var(--form-fieldset-legend-color);
-    padding-bottom: var(--form-wizard-padding);
-    grid-column: span 12;
+    color: var(--form-wizard-step-inactive-color);
 }
 
 main .form form .wizard .wizard-menu-item {
   counter-increment: wizard-step-counter;
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+main .form form .wizard .wizard-menu-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 17px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--form-wizard-step-line-color);
 }
 
 main .form form .wizard .wizard-menu-item::before {
   content: counter(wizard-step-counter);
-  border: 2px solid var(--form-wizard-number-color);
-  color: var(--form-wizard-number-color);
-  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 35px;
   height: 35px;
-  margin-right: 10px;
-  text-align: center;
-  line-height: 2;
-  display: inline-block;
+  border-radius: 50%;
+  background: var(--form-wizard-step-inactive-bg);
+  color: var(--form-wizard-step-inactive-color);
+  font-weight: 600;
+}
+
+main .form form .wizard .wizard-menu-active-item {
+  color: var(--form-wizard-step-active-color);
+  font-weight: 600;
 }
 
 main .form form .wizard .wizard-menu-active-item::before{
-  border: 2px solid var(--form-wizard-number-color);
-  background: var(--form-wizard-number-color);
+  background: var(--form-wizard-step-active-color);
   color: var(--background-color-primary);
-  font-weight: 600;
+}
+
+main .form form .wizard .wizard-step-info {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: var(--form-wizard-step-info-color);
 }
 
 /* wizard title on left */
@@ -108,10 +150,23 @@ main form .wizard > .current-wizard-step.panel-wrapper:last-of-type ~ .wizard-bu
 
 @media (width <= 599px) {
     main .form form .wizard  {
-        .wizard-menu-items {
-            gap: 20px;
+        margin: 0;
+
+        .wizard-step-header {
+            padding: 16px var(--form-bleed-x) 12px;
         }
 
-        margin: 0;
+        .wizard-menu-item {
+            font-size: 0.75rem;
+        }
+
+        .wizard-menu-item::before {
+            width: 28px;
+            height: 28px;
+        }
+
+        .wizard-menu-item:not(:last-child)::after {
+            top: 13px;
+        }
     }
 }
