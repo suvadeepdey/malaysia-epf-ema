@@ -20,4 +20,18 @@ export default function decorate(block) {
     img.closest('picture').replaceWith(optimizedPic);
   });
   block.replaceChildren(ul);
+
+  /* a heading ending the preceding default-content section becomes the panel title */
+  const wrapper = block.parentElement;
+  const prevWrapper = wrapper.previousElementSibling;
+  const heading = prevWrapper?.classList.contains('default-content-wrapper')
+    ? prevWrapper.lastElementChild
+    : null;
+  if (heading?.tagName === 'H2' && !wrapper.parentElement.classList.contains('cards-panel')) {
+    const panel = document.createElement('div');
+    panel.className = 'cards-panel';
+    wrapper.before(panel);
+    panel.append(heading, wrapper);
+    if (!prevWrapper.children.length) prevWrapper.remove();
+  }
 }
