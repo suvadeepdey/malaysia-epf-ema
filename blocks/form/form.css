@@ -295,12 +295,22 @@ main .form fieldset.link .checkbox-wrapper label {
  * .cards rules below, so specificity ordering between the two is moot.
  */
 /* stylelint-disable no-descending-specificity */
-main .form form fieldset:not(.cards) > .radio-wrapper,
 main .form form fieldset:not(.cards) > .checkbox-wrapper {
     border: 1px solid var(--form-card-border-color);
     border-radius: 8px;
     padding: 14px 16px;
     margin: 0 0 12px;
+    background: var(--form-card-background);
+    transition: var(--form-card-transition);
+}
+
+main .form form fieldset:not(.cards) > .radio-wrapper {
+    border: 1px solid var(--form-card-border-color);
+    border-radius: 0;
+    padding: 16px 24px;
+    margin: 0 0 12px;
+    gap: 16px;
+    flex-wrap: nowrap;
     background: var(--form-card-background);
     transition: var(--form-card-transition);
 }
@@ -317,10 +327,20 @@ main .form form fieldset:not(.cards) > .checkbox-wrapper:has(input:checked) {
     background: var(--form-card-selected-background);
 }
 
-main .form form fieldset:not(.cards) > .radio-wrapper input[type="radio"],
+main .form form fieldset:not(.cards) > .radio-wrapper input[type="radio"] {
+    width: 22px;
+    height: 22px;
+}
+
 main .form form fieldset:not(.cards) > .checkbox-wrapper input[type="checkbox"] {
     width: 18px;
     height: 18px;
+}
+
+main .form form fieldset:not(.cards) > .radio-wrapper label {
+    flex: 1 1 auto;
+    flex-basis: auto;
+    font-weight: 600;
 }
 
 main .form form fieldset.cards {
