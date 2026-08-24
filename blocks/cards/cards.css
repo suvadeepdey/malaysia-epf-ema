@@ -1,10 +1,11 @@
 /*
  * cards — KWSP healthcare link tiles.
  *
- * Two visual sub-styles rendered from one cards block, distinguished by the
- * card body's paragraph count (no JS/content changes needed):
+ * Three visual sub-styles rendered from one cards block:
  *   - icon-card tiles  : body has 2 paragraphs (title + "Learn More" CTA)
  *   - quickbar links   : body has 1 paragraph (label under a centered icon)
+ *   - panel info row   : block is wrapped in .cards-panel by cards.js
+ *                        (title is a heading immediately preceding the block)
  *
  * Rendered markup per card:
  *   li > .cards-card-image (p>picture) + .cards-card-body (p… )
@@ -98,6 +99,117 @@
 
 .cards > ul > li:hover .cards-card-body p:first-child a {
   color: var(--kwsp-primary);
+}
+
+/*
+ * ---- panel info row: heading + cards wrapped together in .cards-panel ----
+ * Icon-left, text-right rows grouped inside one white panel with a
+ * centered title (see cards.js, which builds this wrapper).
+ */
+.cards-panel {
+  padding: 24px 20px;
+  border-radius: var(--kwsp-card-radius);
+  background-color: var(--kwsp-surface);
+  box-shadow: var(--kwsp-card-shadow);
+}
+
+/*
+ * "main > .section > div" in styles.css sets margin: auto on every direct
+ * section child, outweighing a single .cards-panel class — so the gap
+ * between stacked panels is set here via the higher-specificity pair.
+ */
+.cards-panel + .cards-panel {
+  margin-top: 24px;
+}
+
+.cards-panel > h2 {
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.cards-panel .cards {
+  margin: 0;
+}
+
+.cards-panel .cards > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 32px;
+  padding: 0;
+}
+
+.cards-panel .cards > ul > li {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  width: auto;
+  max-width: 340px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.cards-panel .cards > ul > li:hover {
+  box-shadow: none;
+}
+
+.cards-panel .cards .cards-card-image {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid #d9e3f6;
+  border-radius: 12px;
+}
+
+.cards-panel .cards .cards-card-image img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.cards-panel .cards .cards-card-body {
+  display: block;
+  align-self: center;
+}
+
+.cards-panel .cards .cards-card-body h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.cards-panel .cards .cards-card-body p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--kwsp-ink-soft);
+  line-height: 1.4;
+}
+
+@media (width >= 600px) {
+  .cards-panel {
+    padding: 32px;
+  }
+}
+
+@media (width >= 900px) {
+  .cards-panel {
+    padding: 40px 48px;
+  }
+
+  .cards-panel + .cards-panel {
+    margin-top: 32px;
+  }
+
+  .cards-panel .cards > ul {
+    gap: 32px 48px;
+  }
 }
 
 /*
