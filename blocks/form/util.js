@@ -116,6 +116,10 @@ export function createButton(fd) {
   if (fd.buttonType) {
     wrapper.classList.add(`${fd?.buttonType}-wrapper`);
   }
+  const { alignment } = fd?.properties || {};
+  if (alignment) {
+    wrapper.classList.add(alignment);
+  }
   const button = document.createElement('button');
   button.textContent = fd?.label?.visible === false ? '' : fd?.label?.value;
   button.type = fd.buttonType || 'button';

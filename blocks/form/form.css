@@ -504,6 +504,31 @@ main .submit-wrapper{
     width: var(--form-submit-width);
 }
 
+main .submit-wrapper.left,
+main .submit-wrapper.center,
+main .submit-wrapper.right {
+    display: flex;
+    width: 100%;
+}
+
+main .submit-wrapper.left {
+    justify-content: flex-start;
+}
+
+main .submit-wrapper.center {
+    justify-content: center;
+}
+
+main .submit-wrapper.right {
+    justify-content: flex-end;
+}
+
+main .submit-wrapper.left button,
+main .submit-wrapper.center button,
+main .submit-wrapper.right button {
+    width: auto;
+}
+
 main .form textarea:disabled,
 main .form select:disabled,
 main .form button:disabled {

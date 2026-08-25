@@ -30,6 +30,27 @@
           "...": "../form-common/_basic-fields.json#/fields"
         },
         {
+          "component": "select",
+          "name": "alignment",
+          "label": "Button Alignment",
+          "valueType": "string",
+          "value": "left",
+          "options": [
+            {
+              "name": "Left",
+              "value": "left"
+            },
+            {
+              "name": "Center",
+              "value": "center"
+            },
+            {
+              "name": "Right",
+              "value": "right"
+            }
+          ]
+        },
+        {
           "...": "../form-common/_help-container.json#/fields"
         }
       ]
