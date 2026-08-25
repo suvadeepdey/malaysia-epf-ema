@@ -875,7 +875,8 @@ main .form form .field-wrapper.note-callout p,
 main .form form .field-wrapper:has(strong:first-child):not(:has(strong:only-child)) p {
     margin: 0;
     color: var(--form-note-text-color);
-    font-size: var(--form-font-size-xs);
+    font-size: var(--form-font-size-s);
+    font-weight: 100;
 }
 
 /**
