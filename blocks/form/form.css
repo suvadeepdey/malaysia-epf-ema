@@ -819,7 +819,7 @@ main .form form .field-wrapper:has(strong:only-child) p {
 main .form form .field-panel-declaration-noopt {
     background: var(--form-declaration-panel-background);
     border-radius: 8px;
-    padding: 14px 24px 25px;
+    padding: 14px 24px 8px;
     text-align: center;
 }
 
@@ -861,7 +861,7 @@ main .form form .field-wrapper:has(strong:first-child):not(:has(strong:only-chil
 main .form form .field-panel-declaration-opt {
     background: var(--form-declaration-opt-panel-background);
     border-radius: 8px;
-    padding: 16px 24px 25px;
+    padding: 16px 24px 8px;
     text-align: center;
 }
 
