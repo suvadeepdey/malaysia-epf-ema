@@ -831,9 +831,9 @@ main .form form .field-wrapper:has(strong:only-child) {
 
 main .form form .field-wrapper:has(strong:only-child) p {
     margin: 0;
-    color: var(--form-section-heading-color);
+    color: #6b7280;
     font-size: 1.35rem;
-    font-weight: 700;
+    font-weight: 300;
 }
 
 /**
@@ -853,6 +853,122 @@ main .form form .panel-wrapper.field-panel-declaration-noopt.field-wrapper p {
     color: var(--form-declaration-panel-text-color);
     font-size: var(--form-font-size-s);
     font-weight: 700;
+}
+
+/**
+ * Setting-aside panel: highlights the monthly savings estimate section.
+ * Authored as a panel with the "panel_setting_aside" name.
+ */
+main .form form .field-panel-setting-aside {
+    background-color: #e0eaf4;
+    border-radius: 8px;
+    padding: 16px 24px;
+}
+
+/**
+ * Setting-aside panel (opt variant): same highlighted savings estimate
+ * section, authored as a panel with the "panel_setting_aside_opt" name.
+ */
+main .form form .field-panel-setting-aside-opt {
+    background-color: #e0eaf4;
+    border-radius: 8px;
+    padding: 16px 24px;
+}
+
+/**
+ * Additional info panel: wraps the "What else should you consider?",
+ * healthcare costs, one hospital bill and grow your savings buffer panels.
+ * Authored as a panel with the "additional_info" name.
+ */
+main .form form .field-additional-info {
+    background-color: #f8fafc;
+}
+
+/**
+ * "What else should you consider?" panel: highlights the protection
+ * need/afford guidance section. Authored as a panel with the
+ * "what_else_should_you_consider" name.
+ */
+main .form form .field-what-else-should-you-consider {
+    background-color: #e0eaf4;
+    border-radius: 8px;
+    padding: 16px 24px;
+}
+
+main .form form .field-what-else-should-you-consider > .field-wrapper:first-child h4 {
+    color: #a2248d;
+}
+
+/**
+ * Healthcare costs card: highlights the "Healthcare costs will keep going up"
+ * callout. Authored as a panel with the "healthcare_costs_card" name.
+ */
+main .form form .field-healthcare-costs-card {
+    background-color: #fdb832;
+    border-radius: 8px;
+    padding: 16px 24px;
+    color: #000;
+}
+
+main .form form .field-healthcare-costs-card > .field-wrapper:first-child p {
+    font-weight: 700;
+}
+
+main .form form .field-healthcare-costs-card > .field-wrapper:nth-child(2) p {
+    font-weight: 400;
+}
+
+/**
+ * One hospital bill: highlights the "One hospital bill"
+ * callout. Authored as a panel with the "one_hospital_bill_card" name.
+ */
+main .form form .field-one-hospital-bill-card {
+    background-color: #fdb832;
+    border-radius: 8px;
+    padding: 16px 24px;
+    color: #000;
+}
+
+main .form form .field-one-hospital-bill-card > .field-wrapper:first-child p {
+    font-weight: 700;
+}
+
+main .form form .field-one-hospital-bill-card > .field-wrapper:nth-child(2) p {
+    font-weight: 400;
+}
+
+/**
+ * Grow your savings buffer: highlights the "Grow your savings buffer"
+ * callout. Authored as a panel with the "grow_your_savings_buffer_card" name.
+ */
+main .form form .field-grow-your-savings-buffer-card {
+    background-color: #fdb832;
+    border-radius: 8px;
+    padding: 16px 24px;
+    color: #000;
+}
+
+main .form form .field-grow-your-savings-buffer-card > .field-wrapper:first-child p {
+    font-weight: 700;
+}
+
+main .form form .field-grow-your-savings-buffer-card > .field-wrapper:nth-child(2) p {
+    font-weight: 400;
+}
+
+main .form form .field-helpful-resources{
+    background-color: #ecfdf5;
+    border-radius: 8px;
+    padding: 16px 24px;
+    color: #000;
+}
+
+main .form form .field-helpful-resources > legend {
+    color: #a2248d;
+}
+
+main .form form .field-helpful-resources > .field-wrapper:first-child h4 {
+    color: #a2248d;
 }
 
 /**
@@ -877,6 +993,18 @@ main .form form .field-wrapper:has(strong:first-child):not(:has(strong:only-chil
     color: var(--form-note-text-color);
     font-size: var(--form-font-size-s);
     font-weight: 100;
+}
+
+/**
+ * Protection need/afford content: child panels within the "What else
+ * should you consider?" panel highlighting the key protection figures.
+ */
+main .form form .field-what-else-should-you-consider .field-protection-need-content > .field-wrapper:first-child p {
+    color: #a2248d;
+}
+
+main .form form .field-what-else-should-you-consider .field-protection-afford-content > .field-wrapper:first-child p {
+    color: #a2248d;
 }
 
 /**
