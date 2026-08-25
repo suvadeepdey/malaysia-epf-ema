@@ -77,6 +77,13 @@
 
     /* Section heading (bold-only paragraph used as a mini heading) */
     --form-section-heading-color: #a3186b;
+
+    /* Declaration/no-opt panel (coverage status banner) */
+    --form-declaration-panel-background: #00457f;
+    --form-declaration-panel-text-color: #fff;
+
+    /* Declaration/opt panel (summary title banner) */
+    --form-declaration-opt-panel-background: linear-gradient(135deg, #0a58a3 0%, #023d78 55%, #003a70 100%);
 }
 
 * {
@@ -805,6 +812,25 @@ main .form form .field-wrapper:has(strong:only-child) p {
 }
 
 /**
+ * Declaration/no-opt panel: an informational banner stating a
+ * coverage/eligibility status (e.g. "You currently do not have MHIT
+ * coverage"). Authored as a panel with the "declaration_noopt" name.
+ */
+main .form form .field-panel-declaration-noopt {
+    background: var(--form-declaration-panel-background);
+    border-radius: 8px;
+    padding: 14px 24px 25px;
+    text-align: center;
+}
+
+main .form form .panel-wrapper.field-panel-declaration-noopt.field-wrapper p {
+    margin: 0;
+    color: var(--form-declaration-panel-text-color);
+    font-size: var(--form-font-size-s);
+    font-weight: 700;
+}
+
+/**
  * Disclaimer/note callout. Authors can pick the "Note callout" variant on a
  * Text field (adds the .note-callout class, see form.js#createPlainText).
  * The :has() selector is kept as a fallback for text authored before that
@@ -825,6 +851,25 @@ main .form form .field-wrapper:has(strong:first-child):not(:has(strong:only-chil
     margin: 0;
     color: var(--form-note-text-color);
     font-size: var(--form-font-size-xs);
+}
+
+/**
+ * Declaration/opt panel: a summary title banner (e.g. "Your healthcare
+ * budget planner summary"). Authored as a panel with the "declaration_opt"
+ * name, containing a plain-text field.
+ */
+main .form form .field-panel-declaration-opt {
+    background: var(--form-declaration-opt-panel-background);
+    border-radius: 8px;
+    padding: 16px 24px 25px;
+    text-align: center;
+}
+
+main .form form .panel-wrapper.field-panel-declaration-opt.field-wrapper .plain-text-wrapper p {
+    margin: 0;
+    color: var(--form-declaration-panel-text-color);
+    font-size: var(--form-font-size-s);
+    font-weight: 700;
 }
 
 /* Responsive adjustments for mobile */
