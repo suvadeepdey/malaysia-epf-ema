@@ -16,6 +16,8 @@
       "cards",
       "columns",
       "fragment",
+      "contentfragment",
+      "video",
       "form",
       "embed-adaptive-form"
     ]
