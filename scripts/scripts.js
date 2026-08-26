@@ -96,6 +96,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+	decorateDMImages(main);
 }
 
 /**
@@ -152,6 +153,331 @@ function loadDelayed() {
   window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
 }
+
+/**
+   * Decorates Dynamic Media images by modifying their URLs to include specific parameters
+   * and creating a <picture> element with different sources for different image formats and sizes.
+   *
+   * @param {HTMLElement} main - The main container element that includes the links to be processed.
+   */
+  export async function decorateDMImages(main) {
+
+	
+		const links = Array.from(main.querySelectorAll('a[href]'));
+	
+		for (const a of links) {
+		  let href = a.href;
+		  const hrefLower = href.toLowerCase();
+		  if (!isDMOpenAPIUrl(href)) continue;
+	  
+		  const isGifFile = hrefLower.endsWith('.gif');
+		  const containsOriginal = href.includes('/original/');
+		  const dmOpenApiDiv = a.closest('.dm-openapi') || a.closest('.dynamic-media-image');
+	  
+		  if (!dmOpenApiDiv) continue;
+	  
+		  // Skip non-originals except GIF, as per your logic
+		  if (containsOriginal && !isGifFile) continue;
+	  
+		  const blockBeingDecorated = whatBlockIsThis(a);
+		  let blockName = '';
+		  let rotate = '';
+		  let flip = '';
+		  let cropValue = '';
+		  let preset = '';
+		  let extend = '';
+		  let backgroundcolor = '';
+		  let advanceManualParam = '';
+		  let enableSmartCrop = '';
+			let showInfoIcon = '';
+	  
+		  if (blockBeingDecorated) {
+			blockName = Array.from(blockBeingDecorated.classList).find(
+			  (className) => className !== 'block'
+			) || '';
+		  }
+	  
+		  // Early exclude videos
+		  const videoExtensions = ['.mp4', '.mov', '.webm', '.ogg', '.m4v', '.mkv'];
+		  const isVideoAsset = videoExtensions.some((ext) => hrefLower.includes(ext));
+		  if (isVideoAsset || blockName === 'video') continue;
+		  
+		  // Extract advanced modifiers only for dynamic-media blocks
+		  if (blockName === 'dm-openapi' || blockName === 'dynamic-media-image') {
+			const parentDiv = a.closest('div');
+			if (parentDiv && parentDiv.parentElement) {
+			  const container = parentDiv.parentElement;
+			  const siblings = [];
+			  let current = container.nextElementSibling;
+	  
+				// Collect up to 4 siblings (preset, rotate, flip, crop) in order
+				while (current && siblings.length < 9) {
+							siblings.push(current);
+							current = current.nextElementSibling;
+				}
+	  
+			  // Helper to safely consume a sibling element's trimmed text and remove it
+			  const consumeSiblingText = (el) => {
+				if (!el) return '';
+				const text = el.textContent?.trim() || '';
+				if (text) el.remove();
+				return text;
+			  };
+	  
+			  // Order matters: preset, rotate, flip, crop
+			  if (siblings.length > 0) {
+				enableSmartCrop = consumeSiblingText(siblings.shift()) || false;
+				preset = consumeSiblingText(siblings.shift());
+				extend = consumeSiblingText(siblings.shift());
+				backgroundcolor = consumeSiblingText(siblings.shift());
+				rotate = consumeSiblingText(siblings.shift());
+				flip = consumeSiblingText(siblings.shift());
+				cropValue = consumeSiblingText(siblings.shift());
+				advanceManualParam = consumeSiblingText(siblings.shift()); // advance_parameters
+				showInfoIcon = consumeSiblingText(siblings.shift());
+			  }
+			}
+	  
+			// Remove direct child divs once (minimize DOM thrash)
+			const directChildDivs = dmOpenApiDiv.querySelectorAll(':scope > div');
+			directChildDivs.forEach((div) => div.remove());
+		  }
+		  
+	
+		   // Build advanced modifier parameters for Dynamic Media URL
+		   const buildAdvanceModifierParams = () => {
+			const params = [];
+			
+			// Add rotation parameter
+			if (rotate) {
+			  params.push(`rotate=${encodeURIComponent(rotate)}`);
+			}
+			
+			// Add flip parameter
+			if (flip) {
+			  params.push(`flip=${encodeURIComponent(flip.toLowerCase())}`);
+			}
+			
+			// Add crop parameter
+			if (cropValue) {
+			  params.push(`crop=${encodeURIComponent(cropValue.toLowerCase())}`);
+			}
+			
+			// Handle preset parameter with special logic for 'border' preset
+			if (preset) {
+			  const presetLower = preset.toLowerCase();
+			  
+			  if (presetLower === 'border') {
+				// Border preset can include extend and background-color
+				if (extend && backgroundcolor) {
+				  const bgColor = backgroundcolor.replace('#', '');
+				  params.push(`extend=${encodeURIComponent(extend)}`);
+				  params.push(`background-color=rgb,${encodeURIComponent(bgColor)}`);
+				} else if (extend) {
+				  params.push(`extend=${encodeURIComponent(extend)}`);
+				}
+			  }
+			  else if (presetLower === 'grayscale') {
+				  params.push(`saturation=-100`);
+			  } else {
+				// Regular preset
+				params.push(`preset=${encodeURIComponent(preset)}`);
+			  }
+			}
+
+			// Append advance_parameters (author-provided custom params)
+			if (advanceManualParam) {
+			  // Strip leading '&' to avoid double '&&' when joining
+			  const sanitized = advanceManualParam.replace(/^&+/, '');
+			  if (sanitized) {
+				params.push(sanitized);
+			  }
+			}
+			
+			// Join all parameters with '&' and prepend '&' if there are any
+			return params.length > 0 ? `&${params.join('&')}` : '';
+		  };
+		  
+		  const advanceModifierParams = buildAdvanceModifierParams();
+		  const originalUrl = new URL(href);
+		  const hasQueryParams = originalUrl.toString().includes('?');
+		  const paramSeparator = hasQueryParams ? '&' : '?';
+		  const baseParams = `${paramSeparator}quality=85&preferwebp=true${advanceModifierParams}`;
+		  const pic = document.createElement('picture');
+	  
+	  
+		  // Only add smart crop sources if enableSmartCrop is true
+		  if (enableSmartCrop === true || enableSmartCrop === 'true') {
+			  const metadataUrl = getMetadataUrl(href);
+			  if (!metadataUrl) continue;
+	  
+			  let metadata;
+			  try {
+				const response = await fetch(metadataUrl);
+				if (!response.ok) {
+				  console.error(`Failed to fetch metadata: ${response.status}`);
+				  continue;
+				}
+				metadata = await response.json();
+			  } catch (error) {
+				console.error('Error fetching or processing metadata:', error);
+				continue;
+			  }
+	  
+			  const smartcrops = metadata?.repositoryMetadata?.smartcrops;
+			  const mimeType = metadata?.repositoryMetadata?.["dc:format"];
+			  if (smartcrops){
+					// Build picture and sources
+					pic.style.textAlign = 'center';
+			
+					const cropKeys = Object.keys(smartcrops);
+					if (!cropKeys.length) continue;
+			
+					// Sort crop keys by width desc (largest → smallest)
+					const cropOrder = cropKeys.sort((a, b) => {
+						const widthA = parseInt(smartcrops[a].width, 10) || 0;
+						const widthB = parseInt(smartcrops[b].width, 10) || 0;
+						return widthB - widthA;
+					});
+			
+					const largestCropWidth = Math.max(
+						...cropOrder.map((cropName) =>
+						parseInt(smartcrops[cropName].width, 10) || 0
+						)
+					);
+			
+					const extraLargeBreakpoint = Math.max(largestCropWidth + 1, 1300);
+			
+					// Extra-large screen source (no smartcrop)
+					const sourceWebpExtraLarge = document.createElement('source');
+					sourceWebpExtraLarge.type = 'image/webp';
+					sourceWebpExtraLarge.srcset = `${originalUrl}${baseParams}`;
+					sourceWebpExtraLarge.media = `(min-width: ${extraLargeBreakpoint}px)`;
+					pic.appendChild(sourceWebpExtraLarge);
+			
+					// Smartcrop sources
+					cropOrder.forEach((cropName) => {
+						const crop = smartcrops[cropName];
+						if (!crop) return;
+			
+						const minWidth = parseInt(crop.width, 10) || 0;
+						const smartcropParam = `${paramSeparator}smartcrop=${encodeURIComponent(
+						cropName
+						)}`;
+			
+						const sourceWebp = document.createElement('source');
+						sourceWebp.type = mimeType ? mimeType : "image/webp";
+						sourceWebp.srcset = `${originalUrl}${smartcropParam}&quality=85&preferwebp=true${advanceModifierParams}`;
+						if (minWidth > 0) {
+						sourceWebp.media = `(min-width: ${minWidth}px)`;
+						}
+			
+						pic.appendChild(sourceWebp);
+					});
+				}
+		  }
+	  
+		  // Fallback 
+		  const fallbackUrl = `${originalUrl}${baseParams}`;
+		  const img = document.createElement('img');
+		  img.loading = 'lazy';
+		  img.src = fallbackUrl;
+		  //img.alt = href !== a.title ? a.title || '' : '';
+	  
+		  pic.appendChild(img);
+		  dmOpenApiDiv.appendChild(pic);
+
+			if (showInfoIcon === true || showInfoIcon === 'true') {
+				const urnPattern = /(\/adobe\/assets\/urn:[^\/]+)/i;
+				const urnMatch = href.match(urnPattern);
+				if (urnMatch) {
+				const urlObj = new URL(href);
+				const imageBaseUrl = `${urlObj.protocol}//${urlObj.hostname}${urnMatch[1]}`;
+				const snapshotState = JSON.stringify({
+					imageUrl: imageBaseUrl,
+					serviceMode: 'openapi',
+					params: {},
+					thumbWidth: 600,
+					thumbHeight: 600,
+				});
+				const snapshotUrl = `https://snapshot.scene7.com/?state=${encodeURIComponent(snapshotState)}`;
+		
+				dmOpenApiDiv.style.position = 'relative';
+				dmOpenApiDiv.style.display = 'inline-block';
+		
+				const infoLink = document.createElement('a');
+				infoLink.href = snapshotUrl;
+				infoLink.target = '_blank';
+				infoLink.rel = 'noopener noreferrer';
+				infoLink.className = 'dm-info-icon';
+				infoLink.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="8,5 19,12 8,19"/></svg>`;
+				const tooltip = document.createElement('span');
+				tooltip.className = 'dm-info-tooltip';
+				tooltip.textContent = 'Explore more image transformations in Snapshot tool';
+				infoLink.appendChild(tooltip);
+		
+				dmOpenApiDiv.appendChild(infoLink);
+				}
+			}
+		}
+		
+		const allBlocks = Array.from(main.querySelectorAll('.dm-openapi, .dynamic-media-image'));
+
+		for (const block of allBlocks) {
+				const links = block.querySelectorAll('a[href]');
+				// If no image is authored, hide all children to prevent raw property values
+				// like "false", "na" from rendering as visible text
+				if (links.length === 0) {
+						const pictures = block.querySelectorAll('picture');
+						// Hide children only if no image was authored (no links)
+						// and block wasn't already processed (no picture element)
+						if (links.length === 0 && pictures.length === 0) {
+							Array.from(block.children).forEach((child) => {
+								child.style.display = 'none';
+							});
+						}
+				}
+		}
+  
+  }
+
+  export function isDMOpenAPIUrl(src) {
+		return /^(https?:\/\/(.*)\/adobe\/assets\/urn:aaid:aem:(.*))/gm.test(src);
+  }
+  
+  export function getMetadataUrl(url) {
+	try {
+	  // Pattern to match: /adobe/assets/urn:aaid:aem:[uuid]
+	  // UUID format: 8-4-4-4-12 hexadecimal characters
+	  const urnPattern = /(\/adobe\/assets\/urn:aaid:aem:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i;
+	  const match = url.match(urnPattern);
+  
+	  if (!match) {
+		return null;
+	  }
+  
+	  // Extract the base URL (protocol + hostname)
+	  const urlObj = new URL(url);
+	  const baseUrl = `${urlObj.protocol}//${urlObj.hostname}`;
+  
+	  // Construct the metadata URL
+	  return `${baseUrl}${match[1]}/metadata`;
+	} catch (error) {
+	  console.error('Error creating metadata URL:', error);
+	  return null;
+	}
+  }
+
+function whatBlockIsThis(element) {
+		let currentElement = element;
+	  
+		while (currentElement.parentElement) {
+		  if (currentElement.parentElement.classList.contains('block')) return currentElement.parentElement;
+		  currentElement = currentElement.parentElement;
+		  if (currentElement.classList.length > 0) return currentElement.classList[0];
+		}
+		return null;
+  }
 
 async function loadPage() {
   await loadEager(document);

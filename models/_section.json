@@ -51,6 +51,9 @@
         "cards",
         "columns",
         "fragment",
+        "contentfragment",
+        "dynamic-media-image",
+        "video",
         "form",
         "embed-adaptive-form"
       ]
