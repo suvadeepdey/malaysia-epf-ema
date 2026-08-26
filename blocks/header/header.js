@@ -154,7 +154,7 @@ export default async function decorate(block) {
     const brandAnchor = navBrand.querySelector('a');
     if (brandAnchor && !brandAnchor.querySelector('img')) {
       const logo = document.createElement('img');
-      logo.src = '/content/dam/malaysia-epf-ema/main_logo.png';
+      logo.src = '/content/dam/malaysia-epf-ema/main-logo.png';
       logo.alt = 'KWSP EPF';
       logo.loading = 'eager';
       logo.className = 'nav-brand-logo';
