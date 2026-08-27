@@ -270,6 +270,29 @@
             "value": "text-center"
           }
         ]
+      },
+      {
+        "component": "select",
+        "name": "ctaStyle",
+        "label": "CTA Style",
+        "options": [
+          {
+            "name": "Link",
+            "value": "link"
+          },
+          {
+            "name": "Primary Button",
+            "value": "primary-button"
+          },
+          {
+            "name": "Secondary Button",
+            "value": "secondary-button"
+          },
+          {
+            "name": "Dark Button",
+            "value": "dark-button"
+          }
+        ]
       }
     ]
   },
