@@ -27,23 +27,19 @@ export default async function decorate(block) {
     return;
   }
 
-  var new_fragment;
+  let newFragment = fragmentPath.endsWith('.html') ? fragmentPath.slice(0, -'.html'.length) : fragmentPath;
 
-  if(fragmentPath && fragmentPath.endsWith('.html')) {
-    new_fragment = fragmentPath.replace('.html', '').trim();
-  }
-
-  console.log('Loading EPF Content Fragment:', new_fragment, variation, displayStyle, alignment, ctaStyle);
+  console.log('Loading EPF Content Fragment:', newFragment, variation, displayStyle, alignment, ctaStyle);
 
   try {
-    const epfCf = await fetchEpfData(new_fragment, variation);
+    const epfCf = await fetchEpfData(newFragment, variation);
 
     const isImageFramed = IMAGE_FRAMED_STYLES.includes(displayStyle);
     const bannerContentStyle = isImageFramed && epfCf.imageUrl
       ? `background-image: url(${epfCf.imageUrl});`
       : '';
     const bannerDetailStyle = !isImageFramed && epfCf.imageUrl
-      ? `background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1) 80%), url(${epfCf.imageUrl});`
+      ? `background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(19, 11, 11, 0.1) 80%), url(${epfCf.imageUrl});`
       : '';
 
     const ctaHref = epfCf.buttonLinkurl?._path ? toSitePath(epfCf.buttonLinkurl._path) : '';
