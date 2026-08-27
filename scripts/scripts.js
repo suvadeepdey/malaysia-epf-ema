@@ -441,6 +441,10 @@ function loadDelayed() {
   
   }
 
+  export function isDMOpenAPIUrl(src) {
+		return /^(https?:\/\/(.*)\/adobe\/assets\/urn:aaid:aem:(.*))/gm.test(src);
+  }
+
 function whatBlockIsThis(element) {
 		let currentElement = element;
 	  
