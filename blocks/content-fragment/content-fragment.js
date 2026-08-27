@@ -36,7 +36,7 @@ export default async function decorate(block) {
   console.log('Loading EPF Content Fragment:', new_fragment, variation, displayStyle, alignment, ctaStyle);
 
   try {
-    const epfCf = await fetchEpfData(fragmentPath, variation);
+    const epfCf = await fetchEpfData(new_fragment, variation);
 
     const isImageFramed = IMAGE_FRAMED_STYLES.includes(displayStyle);
     const bannerContentStyle = isImageFramed && epfCf.imageUrl
