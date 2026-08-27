@@ -27,7 +27,6 @@ export async function fetchEpfData(fragmentPath) {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      Access-Control-Allow-Origin: 'https://author-p214503-e2234854.adobeaemcloud.com/',
     },
   });
 
