@@ -1,5 +1,5 @@
 const AEM_PUBLISH_HOST =
-  'https://publish-p214503-e2234854.adobeaemcloud.com/';
+  'https://publish-p214503-e2234854.adobeaemcloud.com';
 
 const GRAPHQL_CONFIGURATION = 'malaysia-epf-ema';
 const PERSISTED_QUERY_NAME = 'epf-data';

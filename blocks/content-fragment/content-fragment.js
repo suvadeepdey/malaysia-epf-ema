@@ -4,6 +4,9 @@ export default async function decorate(block) {
   const fragmentPath =
     '/content/dam/malaysia-epf-ema/content-fragments/financial-life-stages';
 
+  const contentPath = block.querySelector(':scope div:nth-child(1) > div a')?.textContent?.trim();
+  console.log('Entered path', contentPath);
+
   try {
     const epfCf = await fetchEpfData(fragmentPath);
 
@@ -29,6 +32,6 @@ export default async function decorate(block) {
     `;
   } catch (error) {
     console.error('Unable to load Article Content Fragment:', error);
-    block.innerHTML = '<p>Article content is currently unavailable.</p>';
+    block.innerHTML = '<p>EPF content fragment is currently unavailable.</p>';
   }
 }
