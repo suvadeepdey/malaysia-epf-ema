@@ -27,11 +27,13 @@ export default async function decorate(block) {
     return;
   }
 
+  var new_fragment;
+
   if(fragmentPath && fragmentPath.endsWith('.html')) {
-    fragmentPath = fragmentPath.replace('.html', '').trim();
+    new_fragment = fragmentPath.replace('.html', '').trim();
   }
 
-  console.log('Loading EPF Content Fragment:', fragmentPath, variation, displayStyle, alignment, ctaStyle);
+  console.log('Loading EPF Content Fragment:', new_fragment, variation, displayStyle, alignment, ctaStyle);
 
   try {
     const epfCf = await fetchEpfData(fragmentPath, variation);
