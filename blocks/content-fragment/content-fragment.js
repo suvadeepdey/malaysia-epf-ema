@@ -27,6 +27,10 @@ export default async function decorate(block) {
     return;
   }
 
+  if(fragmentPath && fragmentPath.endsWith('.html')) {
+    fragmentPath = fragmentPath.replace('.html', '').trim();
+  }
+
   console.log('Loading EPF Content Fragment:', fragmentPath, variation, displayStyle, alignment, ctaStyle);
 
   try {
