@@ -1,11 +1,11 @@
-import { fetchEpf } from '../../scripts/aem-graphql.js';
+import { fetchEpfData } from '../../scripts/aem-graphql.js';
 
 export default async function decorate(block) {
   const fragmentPath =
     '/content/dam/malaysia-epf-ema/content-fragments/financial-life-stages';
 
   try {
-    const epfCf = await fetchEpf(fragmentPath);
+    const epfCf = await fetchEpfData(fragmentPath);
 
     block.innerHTML = `
       <article class="article">
