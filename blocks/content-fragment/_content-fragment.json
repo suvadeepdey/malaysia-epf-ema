@@ -21,70 +21,26 @@
       "id": "contentfragment",
       "fields": [
         {
-          "component": "reference",
+          "component": "aem-content-fragment",
+          "name": "reference",
+          "label": "Content Fragment Picker",
           "valueType": "string",
-          "name": "image",
-          "label": "Banner Image",
-          "multi": false
+          "required": true,
+          "variationName": "contentFragmentVariation"
         },
         {
           "component": "text",
+          "name": "contentFragmentVariation",
+          "label": "Selected Variation",
+          "value": "",
           "valueType": "string",
-          "name": "title",
-          "label": "Title"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "subtitle",
-          "label": "Subtitle"
-        },
-        {
-          "component": "richtext",
-          "valueType": "string",
-          "name": "description",
-          "label": "Description"
-        },
-        {
-          "component": "aem-content",
-          "name": "ctaurl",
-          "label": "Button Link",
-          "valueType": "string",
-          "rootPath": "",
-          "description": "Path to linked AEM content"
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "ctalabel",
-          "label": "Button Label"
-        },
-        {
-          "component": "select",
-          "name": "ctastyle",
-          "label": "CTA Style",
-          "value": "button",
-          "valueType": "string",
-          "options": [
-            {
-              "name": "Button",
-              "value": "button"
-            },
-            {
-              "name": "Button Secondary",
-              "value": "button-secondary"
-            },
-            {
-              "name": "Link",
-              "value": "link"
-            }
-          ]
+          "description": "Persisted variation for publish; leave empty for master.",
+          "condition": { "==": [ { "var": "__alwaysFalse" }, true ] }
         },
         {
           "component": "select",
           "name": "displaystyle",
           "label": "Style",
-          "valueType": "string",
           "options": [
             {
               "name": "default",
@@ -106,13 +62,13 @@
               "name": "Image Bottom",
               "value": "image-bottom"
             }
+          
           ]
         },
         {
           "component": "select",
           "name": "alignment",
           "label": "Alignment",
-          "valueType": "string",
           "options": [
             {
               "name": "Text Left",
