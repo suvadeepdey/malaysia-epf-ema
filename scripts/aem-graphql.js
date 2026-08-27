@@ -4,17 +4,18 @@ const AEM_PUBLISH_HOST =
 const GRAPHQL_CONFIGURATION = 'malaysia-epf-ema';
 const PERSISTED_QUERY_NAME = 'epf-data';
 
-export async function fetchEpfData(fragmentPath) {
+export async function fetchEpfData(fragmentPath, variation) {
   /*
    * AEM persisted-query variables use this form:
-   * ;path=/content/dam/...
+   * ;path=/content/dam/...;variation=...
    *
    * encodeURIComponent() encodes:
    * ; as %3B
    * = as %3D
    * / as %2F
    */
-  const encodedVariable = encodeURIComponent(`;path=${fragmentPath}`);
+  const selector = variation ? `;path=${fragmentPath};variation=${variation}` : `;path=${fragmentPath}`;
+  const encodedVariable = encodeURIComponent(selector);
 
   const url =
     `${AEM_PUBLISH_HOST}/graphql/execute.json/` +
@@ -59,7 +60,7 @@ export async function fetchEpfData(fragmentPath) {
     ...epfCf,
 
     // Convert the DAM repository path into an absolute image URL.
-    imageUrl: epfCf.mainImage._path
+    imageUrl: epfCf.mainImage?._path
       ? new URL(epfCf.mainImage._path, AEM_PUBLISH_HOST).href
       : null,
   };

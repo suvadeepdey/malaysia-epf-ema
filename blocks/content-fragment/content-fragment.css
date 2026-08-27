@@ -31,7 +31,7 @@
   background-position: center;
   margin: 0;
   padding: 60px;
-  color: var(--text-light);
+  color: var(--light-color);
   border-radius: inherit;
   text-align: center;
   display: flex;
@@ -59,7 +59,7 @@
   font-family: var(--black-font-family);
 }
 .content-fragment-wrapper .content-fragment .banner-content .banner-detail .cftitle::after {
-  background-color: var(--main-accent-color);
+  background-color: var(--link-color);
   content: "";
   display: block;
   height: 5px;
@@ -86,7 +86,7 @@
   display: inline-block;
   padding: 0;
   background-color: transparent;
-  color: var(--text-light);
+  color: var(--light-color);
   text-decoration: none;
   outline: none;
   border: none;
@@ -101,7 +101,7 @@
 .content-fragment-wrapper .content-fragment .banner-content .banner-detail a::after {
   font-family: 'Font Awesome 5 Solid';
   content: "\f105";
-  color: var(--text-light);
+  color: var(--light-color);
   font-size: 16px;
   font-weight: 100;
   width: 15px;
@@ -468,4 +468,40 @@
 }
 .content-fragment-wrapper .content-fragment .banner-content .banner-detail.text-right .cftitle::after {
   margin-right: 0;
+}
+
+/* CTA Styles (see ctaStyle field on the block model) */
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container {
+  margin: 20px 0 0;
+}
+
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.primary-button a,
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.secondary-button a,
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.dark-button a {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.primary-button a::after,
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.secondary-button a::after,
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.dark-button a::after {
+  content: none;
+}
+
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.primary-button a {
+  background-color: var(--link-color);
+  color: var(--light-color);
+}
+
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.secondary-button a {
+  background-color: transparent;
+  border: 2px solid var(--link-color);
+  color: var(--link-color);
+}
+
+.content-fragment-wrapper .content-fragment .banner-content .banner-detail .button-container.dark-button a {
+  background-color: var(--dark-color);
+  color: var(--light-color);
 }
