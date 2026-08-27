@@ -446,6 +446,7 @@ function loadDelayed() {
   }
   
   export function getMetadataUrl(url) {
+	console.log('Creating metadata URL for:', url);
 	try {
 	  // Pattern to match: /adobe/assets/urn:aaid:aem:[uuid]
 	  // UUID format: 8-4-4-4-12 hexadecimal characters
