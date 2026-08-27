@@ -34,6 +34,13 @@
           "valueType": "string"
         },
         {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enableSmartCrop",
+          "label": "Enable Smart Crop",
+          "value": false
+        },
+        {
           "component": "select",
           "name": "rotate",
           "value": "",
