@@ -158,9 +158,9 @@ async function getAndApplyOffers() {
 let atjsPromise = Promise.resolve();
 if (getMetadata('target')) {
   atjsPromise = initATJS('./at.js', {
-    clientCode: '/* your client code here */',
-    serverDomain: '/* your client code here */.tt.omtrdc.net',
-    imsOrgId: '/* your ims org id here */',
+    clientCode: 'demoapac',
+    serverDomain: 'demoapac.tt.omtrdc.net',
+    imsOrgId: 'BE961EDA67859D450A495E63@AdobeOrg',
     bodyHidingEnabled: false,
     cookieDomain: window.location.hostname,
     pageLoadEnabled: false,
