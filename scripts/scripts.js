@@ -254,9 +254,9 @@ function loadDelayed() {
 			}
 			
 			// Add flip parameter
-			if (flip) {
-			  params.push(`flip=${encodeURIComponent(flip.toLowerCase())}`);
-			}
+			// if (flip) {
+			  //params.push(`flip=${encodeURIComponent(flip.toLowerCase())}`);
+			// }
 			
 			// Add crop parameter
 			if (cropValue) {
