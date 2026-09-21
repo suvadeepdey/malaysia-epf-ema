@@ -30,6 +30,12 @@
     ]
   },
   {
+    "id": "section",
+    "components": [
+      "brandconcierge"
+    ]
+  },
+  {
     "id": "cards",
     "components": [
       "card"
