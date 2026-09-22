@@ -40,17 +40,5 @@
         prehidingStyle: ".personalization-container { opacity: 0 !important }",
     });
 
-window["alloy"]("sendEvent", {
-    conversation: {
-        fetchConversationalExperience: true
-    }
-}).then(result => {
-    console.log("Conversation experience fetched", result);
-    window["alloy"]("bootstrapConversationalExperience", {
-        selector: "#brand-concierge-mount",
-        src: "/scripts/brandconciergemain.js",
-        stylingConfigurations: window.styleConfiguration,
-        stickySession: true // create a sticky session cookie with expiration
-    })
-});
+window["alloy"]("sendEvent", {});
 </script>
