@@ -98,6 +98,9 @@ window.styleConfiguration = {
       },
     },
     productCard: { actionButtonSize: "S" },
+    disclaimer: {
+      attachWithInput: true,
+    },
   },
   disclaimer: {
     text: "This AI assistant is powered by Kwsp. Responses are generated based on your input and may not always be accurate or complete.",
