@@ -22,7 +22,7 @@
       (window, ["alloy"]);
     </script>
 
-<script nonce="aem" src="/scripts/alloy.js"></script>
+<script nonce="aem" src="/scripts/alloy.min.js"></script>
 
 
 <script nonce="aem">
@@ -41,17 +41,5 @@
         prehidingStyle: ".personalization-container { opacity: 0 !important }",
     });
 
-    alloy("sendEvent", {
-        conversation: {
-            fetchConversationalExperience: true
-        }
-    }).then(result => {
-        console.log("Conversation experience fetched", result);
-        alloy("bootstrapConversationalExperience", {
-            selector: "#brand-concierge-mount",
-            src: "/scripts/brandconciergemain.js",
-            stylingConfigurations: window.styleConfiguration,
-            stickySession: true // create a sticky session cookie with expiration
-        });
-    });
+    alloy("sendEvent", {});
 </script>
