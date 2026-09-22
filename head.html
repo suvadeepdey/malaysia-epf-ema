@@ -41,13 +41,13 @@
         prehidingStyle: ".personalization-container { opacity: 0 !important }",
     });
 
-window["alloy"]("sendEvent", {}).then(result => {
-    console.log("Conversation experience fetched", result);
-    window["alloy"]("bootstrapConversationalExperience", {
-        selector: "#brand-concierge-mount",
-        src: "/scripts/brandconciergemain.js",
-        stylingConfigurations: window.styleConfiguration,
-        stickySession: true // create a sticky session cookie with expiration
+    alloy("sendEvent", {}).then(result => {
+        console.log("Conversation experience fetched", result);
+        alloy("bootstrapConversationalExperience", {
+            selector: "#brand-concierge-mount",
+            src: "/scripts/brandconciergemain.js",
+            stylingConfigurations: window.styleConfiguration,
+            stickySession: true // create a sticky session cookie with expiration
+        });
     });
-});
 </script>
